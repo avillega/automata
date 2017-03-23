@@ -13,7 +13,7 @@ public class ConveyorController {
     @Autowired
     private ConveyorService conveyorService;
 
-    //La velocidad double debe ir con coma
+    //La velocidad double debe ir con punto
     @RequestMapping(method = RequestMethod.POST, value= "/conveyor/speed")
     public String changeSpeed(@RequestBody double speed){
         return conveyorService.changeSpeed(speed);
