@@ -5,6 +5,7 @@ import javax.persistence.Enumerated;
 
 /**
  * Created by Andres Villegas on 2017-03-23.
+ *
  */
 public class Command {
 
