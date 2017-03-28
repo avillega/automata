@@ -16,7 +16,7 @@ public class ConveyorService {
 
 
     public String changeSpeed(double speed){
-        restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%d", (int) speed), String.class);
+        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%d", (int) speed), String.class);
         logger.info(String.format("Speed Set to %f", speed));
         return speed+"";
     }
