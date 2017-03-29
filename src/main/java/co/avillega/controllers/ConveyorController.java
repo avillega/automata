@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Andres Villegas on 2017-03-22.
+ * Automata Project
  */
 @RestController
 public class ConveyorController {
@@ -20,15 +21,12 @@ public class ConveyorController {
     }
 
     @RequestMapping("/conveyor/stop/{millis}")
-    public String stopWhile(@PathVariable long millis){
-        return conveyorService.stop(millis);
+    public String stopWhile(@PathVariable int seconds) {
+        return conveyorService.stop(seconds);
     }
 
-    @RequestMapping("/conveyor/stop/emergency")
+    @RequestMapping("/conveyor/emergency")
     public String emergencyStop(){
         return conveyorService.emergencyStop();
     }
-
-
-
 }

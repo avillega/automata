@@ -24,4 +24,8 @@ public class RoutineControler {
         return routineService.getRoutines();
     }
 
+    public void deleteRoutine(long id) {
+        routineService.deleteRoutine(id);
+    }
+
 }

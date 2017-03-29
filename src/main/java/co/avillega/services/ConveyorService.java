@@ -1,5 +1,6 @@
 package co.avillega.services;
 
+import co.avillega.entities.Instruction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,21 +17,21 @@ public class ConveyorService {
 
 
     public String changeSpeed(double speed){
+        String command = Instruction.SPEED.name();
         //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%d", (int) speed), String.class);
         logger.info(String.format("Speed Set to %f", speed));
         return speed+"";
     }
 
-    public String stop(long milliseconds){
-        logger.info(String.format("Stopped for %d", milliseconds));
+    public String stop(int seconds) {
+        logger.info(String.format("Stopped for %d", seconds));
         return "stopped";
     }
 
     public String emergencyStop(){
-        logger.info("Emergency stop activated");
+        logger.warn("Emergency stop activated");
         return "Emergency stop activated";
     }
-
 
 
 }

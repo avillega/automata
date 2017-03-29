@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 public class Command {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
@@ -72,5 +71,9 @@ public class Command {
     @Override
     public String toString() {
         return String.format("%s:%d", instruction.name(), param);
+    }
+
+    public void execute() {
+        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%s:%d", instruction.name(), param), String.class);
     }
 }

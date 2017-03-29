@@ -41,5 +41,9 @@ public class RoutineService {
         routineRepository.save(routine);
     }
 
+    public void deleteRoutine(long id) {
+        routineRepository.delete(id);
+    }
+
 
 }

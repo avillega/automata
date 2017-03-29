@@ -97,4 +97,10 @@ public class Routine {
         result = 31 * result + (commands != null ? commands.hashCode() : 0);
         return result;
     }
+
+    public void executeRoutine() {
+        for (Command command : commands) {
+            command.execute();
+        }
+    }
 }
