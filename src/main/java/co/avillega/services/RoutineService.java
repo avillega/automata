@@ -27,10 +27,11 @@ public class RoutineService {
         return ret;
     }
 
-    public void setCommandsToRoutine(String id, List<Command> commands) {
+    public Routine setCommandsToRoutine(String id, List<Command> commands) {
         Routine routine = routineRepository.findOne(id);
         routine.setCommands(commands);
         routineRepository.save(routine);
+        return routine;
     }
 
     public void addRoutine(Routine routine) {

@@ -9,23 +9,24 @@ import org.springframework.web.bind.annotation.*;
  * Automata Project
  */
 @RestController
+@RequestMapping("/conveyor")
 public class ConveyorController {
 
     @Autowired
     private ConveyorService conveyorService;
 
     //La velocidad double debe ir con punto
-    @RequestMapping(method = RequestMethod.POST, value= "/conveyor/speed")
+    @RequestMapping(method = RequestMethod.POST, value = "/speed")
     public String changeSpeed(@RequestBody double speed){
         return conveyorService.changeSpeed(speed);
     }
 
-    @RequestMapping("/conveyor/stop/{millis}")
+    @RequestMapping("/stop")
     public String stopWhile(@PathVariable int seconds) {
-        return conveyorService.stop(seconds);
+        return conveyorService.stop();
     }
 
-    @RequestMapping("/conveyor/emergency")
+    @RequestMapping("/emergency")
     public String emergencyStop(){
         return conveyorService.emergencyStop();
     }

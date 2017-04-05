@@ -1,5 +1,6 @@
 package co.avillega.controllers;
 
+import co.avillega.entities.Command;
 import co.avillega.entities.Routine;
 import co.avillega.services.RoutineService;
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import java.util.List;
  * for automata project
  */
 @RestController
+@RequestMapping("/api/routines")
 public class RoutineControler {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutineControler.class);
@@ -22,27 +24,37 @@ public class RoutineControler {
     private RoutineService routineService;
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/routines")
+    @RequestMapping(method = RequestMethod.POST)
     public Routine addRoutine(@RequestBody Routine routine) {
         logger.info(routine.toString());
         routineService.addRoutine(routine);
         return routine;
     }
 
-    @RequestMapping("/routines")
+    @RequestMapping(method = RequestMethod.GET)
     public List<Routine> getRoutines() {
         return routineService.getRoutines();
     }
 
-    @RequestMapping("/routines/{id}/play")
-    public void startRoutine(@PathVariable("id") String id) {
+    @RequestMapping("/{id}/play")
+    public void startRoutine(@PathVariable String id) {
         Routine routine = routineService.getRoutine(id);
         routine.executeRoutine();
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/routines/{id}")
-    public void deleteRoutine(String id) {
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    public void deleteRoutine(@PathVariable String id) {
         routineService.deleteRoutine(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{id}/commands")
+    public Routine setCommandsToRoutine(@PathVariable String id, @RequestBody List<Command> commands) {
+        return routineService.setCommandsToRoutine(id, commands);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}/commands")
+    public List<Command> setCommandsToRoutine(@PathVariable String id) {
+        return routineService.getCommandsByRoutineId(id);
     }
 
 }

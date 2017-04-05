@@ -23,13 +23,18 @@ public class ConveyorService {
         return speed+"";
     }
 
-    public String stop(int seconds) {
-        logger.info(String.format("Stopped for %d", seconds));
+    public String stop() {
+        logger.info("stopped");
         return "stopped";
     }
 
     public String emergencyStop(){
         logger.warn("Emergency stop activated");
+        return "Emergency stop activated";
+    }
+
+    public String start() {
+        logger.info("started");
         return "Emergency stop activated";
     }
 
