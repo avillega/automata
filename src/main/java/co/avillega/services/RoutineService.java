@@ -6,7 +6,6 @@ import co.avillega.repositories.RoutineRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,19 +18,16 @@ public class RoutineService {
     public RoutineService() {
     }
 
-    public List<Command> getCommandsByRoutineId(long id) {
+    public List<Command> getCommandsByRoutineId(String id) {
         return routineRepository.findOne(id).getCommands();
     }
 
     public List<Routine> getRoutines() {
-        List<Routine> ret = new ArrayList<>();
-        for (Routine routine : routineRepository.findAll()) {
-            ret.add(routine);
-        }
+        List<Routine> ret = routineRepository.findAll();
         return ret;
     }
 
-    public void setCommandsToRoutine(long id, List<Command> commands) {
+    public void setCommandsToRoutine(String id, List<Command> commands) {
         Routine routine = routineRepository.findOne(id);
         routine.setCommands(commands);
         routineRepository.save(routine);
@@ -41,7 +37,11 @@ public class RoutineService {
         routineRepository.save(routine);
     }
 
-    public void deleteRoutine(long id) {
+    public Routine getRoutine(String id) {
+        return routineRepository.findOne(id);
+    }
+
+    public void deleteRoutine(String id) {
         routineRepository.delete(id);
     }
 

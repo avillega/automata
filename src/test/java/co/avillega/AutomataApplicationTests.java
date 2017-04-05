@@ -11,6 +11,7 @@ public class AutomataApplicationTests {
 
 	@Test
 	public void contextLoads() {
-	}
+
+    }
 
 }

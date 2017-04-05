@@ -1,36 +1,27 @@
 package co.avillega.entities;
 
-import javax.persistence.*;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.data.annotation.Transient;
+import org.springframework.web.client.RestTemplate;
 
-/**
- * Created by Andres Villegas on 2017-03-23.
- *
- */
-@Entity
-public class Command {
+import java.io.Serializable;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+@Configurable
+public class Command implements Serializable {
 
-    @Enumerated(EnumType.STRING)
+    @Transient
+    private RestTemplate restTemplate = new RestTemplate();
+
     private Instruction instruction;
     private long param;
 
     public Command(){}
 
-    public Command(Instruction instruction, long param) {
-        this.instruction = instruction;
+    public Command(String instruction, long param) {
+        this.instruction = Instruction.valueOf(instruction);
         this.param = param;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public Instruction getInstruction() {
         return instruction;
@@ -48,32 +39,13 @@ public class Command {
         this.param = param;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Command command = (Command) o;
-
-        if (id != command.id) return false;
-        if (param != command.param) return false;
-        return instruction == command.instruction;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
-        result = 31 * result + (instruction != null ? instruction.hashCode() : 0);
-        result = 31 * result + (int) (param ^ (param >>> 32));
-        return result;
+    public void execute() {
+        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%s:%d", instruction.name(), param), String.class);
+        System.out.println(String.format(toString()));
     }
 
     @Override
     public String toString() {
         return String.format("%s:%d", instruction.name(), param);
-    }
-
-    public void execute() {
-        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%s:%d", instruction.name(), param), String.class);
     }
 }
