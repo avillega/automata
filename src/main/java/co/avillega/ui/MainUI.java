@@ -5,8 +5,8 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -20,7 +20,7 @@ public class MainUI extends UI {
     ControlPanel controlPanel;
     @Autowired
     RutinasPanel rutinasPanel;
-    VerticalLayout contentLayout;
+    Panel contentPanel;
     Navigator navigator;
     private GridLayout root;
 
@@ -32,12 +32,13 @@ public class MainUI extends UI {
 
     private void setupLayout() {
         auxPanel = new AuxPanel(this);
-        contentLayout = new VerticalLayout();
+        contentPanel = new Panel();
+
 
 
         root = new GridLayout(2, 1);
 
-        navigator = new Navigator(this, contentLayout);
+        navigator = new Navigator(this, contentPanel);
         navigator.addView(CONTROLVIEW, controlPanel);
         navigator.addView(RUTINASVIEW, rutinasPanel);
 
@@ -47,8 +48,8 @@ public class MainUI extends UI {
 
         root.setSizeFull();
         root.addComponents(auxPanel);
-        root.addComponent(contentLayout);
-
+        root.addComponent(contentPanel);
+        contentPanel.setHeight("100%");
 
         setContent(root);
     }

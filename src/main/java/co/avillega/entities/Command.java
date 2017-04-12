@@ -1,16 +1,11 @@
 package co.avillega.entities;
 
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.data.annotation.Transient;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 
 @Configurable
 public class Command implements Serializable {
-
-    @Transient
-    private RestTemplate restTemplate = new RestTemplate();
 
     private Instruction instruction;
     private long param;
@@ -47,5 +42,9 @@ public class Command implements Serializable {
     @Override
     public String toString() {
         return String.format("%s:%d", instruction.name(), param);
+    }
+
+    public String pretty() {
+        return String.format("%s %d", instruction.toString(), param);
     }
 }

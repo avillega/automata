@@ -36,10 +36,9 @@ public class RoutineControler {
         return routineService.getRoutines();
     }
 
-    @RequestMapping("/{id}/play")
+    @RequestMapping("/{id}/start")
     public void startRoutine(@PathVariable String id) {
-        Routine routine = routineService.getRoutine(id);
-        routine.executeRoutine();
+        routineService.startRoutine(id);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")

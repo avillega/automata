@@ -17,6 +17,9 @@ import com.vaadin.ui.themes.ValoTheme;
 @SpringComponent
 public class ControlPanel extends VerticalLayout implements View {
     private ConveyorService conveyorService;
+    private Label lbStat;
+
+
 
     public ControlPanel(ConveyorService conveyorService) {
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -24,8 +27,7 @@ public class ControlPanel extends VerticalLayout implements View {
         addHeader();
         addControlSlider();
         addActionButtons();
-
-
+        addStatus();
     }
 
     private void addHeader() {
@@ -72,17 +74,29 @@ public class ControlPanel extends VerticalLayout implements View {
         Button startBtn = new Button("Start");
         startBtn.setIcon(VaadinIcons.PLAY);
         startBtn.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-        startBtn.addClickListener(event -> conveyorService.start());
+        startBtn.addClickListener(event -> {
+            conveyorService.start();
+            updateLabel("Start");
+
+        });
 
         Button stopBtn = new Button("Stop");
         stopBtn.setIcon(VaadinIcons.STOP);
         stopBtn.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        stopBtn.addClickListener(event -> conveyorService.stop());
+        stopBtn.addClickListener(event -> {
+            conveyorService.stop();
+            updateLabel("Stopped");
+
+        });
 
         Button emergencyBtn = new Button("Emergency");
         emergencyBtn.setIcon(VaadinIcons.WARNING);
         emergencyBtn.addStyleName(ValoTheme.BUTTON_DANGER);
-        emergencyBtn.addClickListener(event -> conveyorService.emergencyStop());
+        emergencyBtn.addClickListener(event -> {
+            conveyorService.emergencyStop();
+            updateLabel("Emergency Stopped");
+
+        });
 
 
         actionLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -93,8 +107,20 @@ public class ControlPanel extends VerticalLayout implements View {
         this.addComponent(actionLayout);
     }
 
+    private void addStatus() {
+
+        lbStat = new Label("Stopped");
+        this.addComponent(lbStat);
+
+    }
+
+    private void updateLabel(String span) {
+        lbStat.setValue(span);
+    }
+
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+
         System.out.println("Entered Control");
     }
 }

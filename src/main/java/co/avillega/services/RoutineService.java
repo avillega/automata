@@ -46,5 +46,10 @@ public class RoutineService {
         routineRepository.delete(id);
     }
 
+    public void startRoutine(String id) {
+        Routine routine = routineRepository.findOne(id);
+        routine.executeRoutine();
+    }
+
 
 }

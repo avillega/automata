@@ -5,5 +5,21 @@ package co.avillega.entities;
  *
  */
 public enum Instruction {
-    START, SPEED, WAIT, STOP, EMERGENCY
+    START("START"),
+    SPEED("SET_SPEED"),
+    WAIT("WAIT"),
+    STOP("STOP"),
+    EMERGENCY("EMERGENCY");
+
+    private String string;
+
+    Instruction(String string) {
+        this.string = string;
+    }
+
+    public String toString() {
+        return string;
+    }
+
+
 }
