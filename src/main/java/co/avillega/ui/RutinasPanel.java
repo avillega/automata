@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -18,18 +19,19 @@ import java.util.List;
 @SpringComponent
 public class RutinasPanel extends VerticalLayout implements View {
 
-    private RoutineService routineService;
+    private final RoutineService routineService;
     private String currentRoutine = "";
     private Accordion accordion = new Accordion();
 
+    @Autowired
     public RutinasPanel(RoutineService routineService) {
-        this.routineService = routineService;
 
         setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Label lbRutinas = new Label("Rutinas");
         lbRutinas.addStyleName(ValoTheme.LABEL_H1);
         this.addComponents(lbRutinas, accordion);
 
+        this.routineService = routineService;
     }
 
     @PostConstruct
@@ -94,6 +96,14 @@ public class RutinasPanel extends VerticalLayout implements View {
     public void addRoutine(Routine routine) {
         routineService.addRoutine(routine);
         setRoutines();
+    }
+
+    public void executeRoutine(Routine routine) {
+        routineService.startRoutine(routine.getId());
+    }
+
+    public void stopBtn() {
+        routineService.emergencyStop();
     }
 
     @Override

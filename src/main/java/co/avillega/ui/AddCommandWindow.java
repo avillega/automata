@@ -1,5 +1,6 @@
 package co.avillega.ui;
 
+import co.avillega.entities.Command;
 import co.avillega.entities.Instruction;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
@@ -7,17 +8,18 @@ import com.vaadin.ui.themes.ValoTheme;
 
 import java.util.Arrays;
 
-/**
- * Created by Andres Villegas on 2017-04-10.
- */
-public class AddCommandWindow extends Window {
+class AddCommandWindow extends Window {
 
     private Instruction instruction;
+    private RutinaLayout parent;
+    private int pos;
+    private TextField parameter;
 
 
-    AddCommandWindow() {
+    AddCommandWindow(RutinaLayout parent, int pos) {
         super("Agregar Comando");
-
+        this.parent = parent;
+        this.pos = pos;
         VerticalLayout form = new VerticalLayout();
 
 
@@ -28,8 +30,24 @@ public class AddCommandWindow extends Window {
         Button addBtn = new Button("Agregar");
         addBtn.addStyleName(ValoTheme.BUTTON_PRIMARY);
         addBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        addBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         addBtn.addClickListener(event -> {
+            Command newCommand;
+            if (parameter.isVisible()) {
+                try {
+                    long param = Long.parseLong(parameter.getValue());
+                    newCommand = new Command(instruction.name(), param);
 
+                } catch (Exception e) {
+                    Notification.show("ERROR", "El parametro debe ser u numero valido", Notification.Type.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+                newCommand = new Command(instruction.name(), 0);
+
+            }
+            this.parent.addCommand(pos, newCommand);
+            this.close();
         });
         btns.addComponent(addBtn);
 
@@ -44,9 +62,10 @@ public class AddCommandWindow extends Window {
         this.setWidth("50%");
     }
 
-    public HorizontalLayout creteCommandSelection() {
+    private HorizontalLayout creteCommandSelection() {
         HorizontalLayout commandSel = new HorizontalLayout();
-        TextField parameter = new TextField("Parametro");
+        instruction = Instruction.STOP;
+        parameter = new TextField("Parametro");
         parameter.setRequiredIndicatorVisible(true);
         parameter.setVisible(false);
         Instruction[] data = Arrays.copyOf(Instruction.values(), Instruction.values().length - 1);
@@ -54,7 +73,7 @@ public class AddCommandWindow extends Window {
         NativeSelect<Instruction> instructions = new NativeSelect<>("Seleccionar comando");
 
         instructions.setItems(data);
-        instructions.setItemCaptionGenerator(caption -> caption.toString());
+        instructions.setItemCaptionGenerator(Instruction::toString);
         instructions.setEmptySelectionAllowed(false);
         instructions.setSelectedItem(Instruction.STOP);
         instructions.addSelectionListener(event -> {

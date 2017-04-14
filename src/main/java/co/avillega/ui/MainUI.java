@@ -13,16 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SpringUI
 public class MainUI extends UI {
 
-    public static final String CONTROLVIEW = "";
-    public static final String RUTINASVIEW = "rutinas";
-    AuxPanel auxPanel;
+    static final String CONTROLVIEW = "";
+    static final String RUTINASVIEW = "rutinas";
+    private final ControlPanel controlPanel;
+    private final RutinasPanel rutinasPanel;
+    private Navigator navigator;
+
     @Autowired
-    ControlPanel controlPanel;
-    @Autowired
-    RutinasPanel rutinasPanel;
-    Panel contentPanel;
-    Navigator navigator;
-    private GridLayout root;
+    public MainUI(ControlPanel controlPanel, RutinasPanel rutinasPanel) {
+        this.controlPanel = controlPanel;
+        this.rutinasPanel = rutinasPanel;
+    }
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
@@ -31,12 +32,11 @@ public class MainUI extends UI {
     }
 
     private void setupLayout() {
-        auxPanel = new AuxPanel(this);
-        contentPanel = new Panel();
+        AuxPanel auxPanel = new AuxPanel(this);
+        Panel contentPanel = new Panel();
 
 
-
-        root = new GridLayout(2, 1);
+        GridLayout root = new GridLayout(2, 1);
 
         navigator = new Navigator(this, contentPanel);
         navigator.addView(CONTROLVIEW, controlPanel);

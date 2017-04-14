@@ -10,9 +10,7 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-/**
- * Created by Andres Villegas on 2017-04-03.
- */
+
 @UIScope
 @SpringComponent
 public class ControlPanel extends VerticalLayout implements View {
@@ -120,7 +118,6 @@ public class ControlPanel extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
-
         System.out.println("Entered Control");
     }
 }

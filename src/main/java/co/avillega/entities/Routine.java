@@ -10,7 +10,6 @@ import java.util.List;
 @Document(collection = "routines")
 public class Routine {
 
-
     @Id
     private String id;
     private String description;
@@ -72,11 +71,6 @@ public class Routine {
                 '}';
     }
 
-    public void executeRoutine() {
-        for (Command command : commands) {
-            command.execute();
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -85,9 +79,8 @@ public class Routine {
 
         Routine routine = (Routine) o;
 
-        if (!id.equals(routine.id)) return false;
-        if (description != null ? !description.equals(routine.description) : routine.description != null) return false;
-        return name != null ? name.equals(routine.name) : routine.name == null;
+        return id.equals(routine.id) && (description != null ? description.equals(routine.description) :
+                routine.description == null) && (name != null ? name.equals(routine.name) : routine.name == null);
     }
 
     @Override

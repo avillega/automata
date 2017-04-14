@@ -1,10 +1,8 @@
 package co.avillega.entities;
 
-import org.springframework.beans.factory.annotation.Configurable;
-
 import java.io.Serializable;
 
-@Configurable
+
 public class Command implements Serializable {
 
     private Instruction instruction;
@@ -34,17 +32,15 @@ public class Command implements Serializable {
         this.param = param;
     }
 
-    public void execute() {
-        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%s:%d", instruction.name(), param), String.class);
-        System.out.println(String.format(toString()));
-    }
-
     @Override
     public String toString() {
         return String.format("%s:%d", instruction.name(), param);
     }
 
     public String pretty() {
-        return String.format("%s %d", instruction.toString(), param);
+        if (this.instruction == Instruction.SPEED || this.instruction == Instruction.WAIT)
+            return String.format("%s %d", instruction.toString(), param);
+        else
+            return instruction.toString();
     }
 }

@@ -12,10 +12,14 @@ import java.util.List;
 @Service
 public class RoutineService {
 
-    @Autowired
-    private RoutineRepository routineRepository;
+    private final RoutineRepository routineRepository;
 
-    public RoutineService() {
+    private final ConveyorService conveyorService;
+
+    @Autowired
+    public RoutineService(RoutineRepository routineRepository, ConveyorService conveyorService) {
+        this.routineRepository = routineRepository;
+        this.conveyorService = conveyorService;
     }
 
     public List<Command> getCommandsByRoutineId(String id) {
@@ -23,8 +27,7 @@ public class RoutineService {
     }
 
     public List<Routine> getRoutines() {
-        List<Routine> ret = routineRepository.findAll();
-        return ret;
+        return routineRepository.findAll();
     }
 
     public Routine setCommandsToRoutine(String id, List<Command> commands) {
@@ -48,7 +51,19 @@ public class RoutineService {
 
     public void startRoutine(String id) {
         Routine routine = routineRepository.findOne(id);
-        routine.executeRoutine();
+        executeRoutine(routine);
+    }
+
+    private void executeRoutine(Routine routine) {
+        for (Command command : routine.getCommands()) {
+            conveyorService.genericCommand(command);
+        }
+        //Stop Implicito
+        conveyorService.stop();
+    }
+
+    public void emergencyStop() {
+        conveyorService.emergencyStop();
     }
 
 

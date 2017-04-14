@@ -2,14 +2,13 @@ package co.avillega.ui;
 
 
 import co.avillega.entities.Routine;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.*;
 
-/**
- * Created by Andres Villegas on 2017-04-10.
- */
-public class AddRoutineWindow extends Window {
 
-    public AddRoutineWindow(RutinasPanel panel) {
+class AddRoutineWindow extends Window {
+
+    AddRoutineWindow(RutinasPanel panel) {
         super("Add Routine");
 
         VerticalLayout form = new VerticalLayout();
@@ -26,6 +25,7 @@ public class AddRoutineWindow extends Window {
         HorizontalLayout btns = new HorizontalLayout();
 
         Button addBtn = new Button("Add");
+        addBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         addBtn.addClickListener(event -> {
             if (nameTxt.isEmpty()) {
                 Notification.show("Warning", "Name must not be empty", Notification.Type.WARNING_MESSAGE);
