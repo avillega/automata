@@ -1,10 +1,10 @@
 package co.avillega.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Document(collection = "routines")
@@ -15,11 +15,16 @@ public class Routine {
     private String description;
     private String name;
 
+
+    @DBRef
+    private AppUser owner;
+
     private List<Command> commands;
 
-    public Routine(String description, String name) {
+    public Routine(String description, String name, AppUser owner) {
         this.description = description;
         this.name = name;
+        this.owner = owner;
         this.commands = new ArrayList<>();
 
     }
@@ -60,15 +65,12 @@ public class Routine {
         this.commands = commands;
     }
 
+    public AppUser getOwner() {
+        return owner;
+    }
 
-    @Override
-    public String toString() {
-        return "Routine{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", commands=" + Arrays.toString(commands.toArray()) +
-                '}';
+    public void setOwner(AppUser owner) {
+        this.owner = owner;
     }
 
 
@@ -89,5 +91,16 @@ public class Routine {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Routine{" +
+                "id='" + id + '\'' +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                ", commands=" + commands +
+                '}';
     }
 }
