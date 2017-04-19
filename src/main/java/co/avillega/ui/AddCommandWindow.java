@@ -35,11 +35,11 @@ class AddCommandWindow extends Window {
             Command newCommand;
             if (parameter.isVisible()) {
                 try {
-                    long param = Long.parseLong(parameter.getValue());
+                    double param = Double.parseDouble(parameter.getValue());
                     newCommand = new Command(instruction.name(), param);
 
                 } catch (Exception e) {
-                    Notification.show("ERROR", "El parametro debe ser u numero valido", Notification.Type.ERROR_MESSAGE);
+                    Notification.show("ERROR", "El parametro debe ser un numero real valido", Notification.Type.ERROR_MESSAGE);
                     return;
                 }
             } else {

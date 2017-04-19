@@ -6,11 +6,11 @@ import java.io.Serializable;
 public class Command implements Serializable {
 
     private Instruction instruction;
-    private long param;
+    private double param;
 
     public Command(){}
 
-    public Command(String instruction, long param) {
+    public Command(String instruction, double param) {
         this.instruction = Instruction.valueOf(instruction);
         this.param = param;
     }
@@ -24,22 +24,22 @@ public class Command implements Serializable {
         this.instruction = instruction;
     }
 
-    public long getParam() {
+    public double getParam() {
         return param;
     }
 
-    public void setParam(long param) {
+    public void setParam(double param) {
         this.param = param;
     }
 
     @Override
     public String toString() {
-        return String.format("%s:%d", instruction.name(), param);
+        return String.format("%s:%.2f", instruction.name(), param);
     }
 
     public String pretty() {
         if (this.instruction == Instruction.SPEED || this.instruction == Instruction.WAIT)
-            return String.format("%s %d", instruction.toString(), param);
+            return String.format("%s %.2f", instruction.toString(), param);
         else
             return instruction.toString();
     }

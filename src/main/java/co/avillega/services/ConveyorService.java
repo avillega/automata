@@ -12,34 +12,38 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ConveyorService {
     private static final Logger logger = LoggerFactory.getLogger(ConveyorService.class);
+    private static final String ARDUINO = "192.168.100.12";
     private RestTemplate restTemplate = new RestTemplate();
 
-
     public String changeSpeed(double speed){
-
-        //restTemplate.getForEntity(String.format("http://192.168.100.12/mailbox/%d", (int) speed), String.class);
+        restTemplate.getForEntity(String.format("http://%s/mailbox/speed:%f", ARDUINO, speed), String.class);
         logger.info(String.format("Speed Set to %f", speed));
         return speed+"";
     }
 
     public String stop() {
+        restTemplate.getForEntity(String.format("http://%s/mailbox/stop", ARDUINO), String.class);
         logger.info("stopped");
         return "stopped";
     }
 
     public String emergencyStop(){
+        restTemplate.getForEntity(String.format("http://%s/arduino/emergency", ARDUINO), String.class);
         logger.warn("Emergency stop activated");
         return "Emergency stop activated";
     }
 
     public String start() {
+        restTemplate.getForEntity(String.format("http://%s/mailbox/start", ARDUINO), String.class);
         logger.info("started");
         return "Started";
     }
 
-    public String waitInst(long seconds) {
-        logger.info(String.format("wainting %d seconds", seconds));
-        return String.format("wainting %d seconds", seconds);
+    public String waitInst(double seconds) {
+        seconds *= 1000;
+        restTemplate.getForEntity(String.format("http://%s/mailbox/wait:%f", ARDUINO, seconds), String.class);
+        logger.info(String.format("wainting %f seconds", seconds / 1000));
+        return String.format("wainting %f seconds", seconds / 1000);
     }
 
     public void genericCommand(Command command) {

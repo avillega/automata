@@ -30,7 +30,7 @@ class AddRoutineWindow extends Window {
             if (nameTxt.isEmpty()) {
                 Notification.show("Warning", "Name must not be empty", Notification.Type.WARNING_MESSAGE);
             } else {
-                panel.addRoutine(new Routine(nameTxt.getValue(), descArea.getValue()));
+                panel.addRoutine(new Routine(descArea.getValue(), nameTxt.getValue()));
                 this.close();
             }
         });
