@@ -1,28 +1,48 @@
 package co.avillega.services;
 
-import co.avillega.entities.Routine;
-import co.avillega.repositories.RoutineRepository;
+import co.avillega.entities.AppUser;
 import co.avillega.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
 public class UserService {
 
-    private final RoutineRepository routineRepository;
-
     private final UserRepository userRepository;
 
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
     @Autowired
-    public UserService(RoutineRepository routineRepository, UserRepository userRepository) {
-        this.routineRepository = routineRepository;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
-    public List<Routine> getUserRoutines() {
-        return null;
+
+    public AppUser authenticateUser(String userName, String enteredPassword) {
+
+        AppUser user = userRepository.findFirstByUserName(userName);
+        if (user == null) return null;
+        if (encoder.matches(enteredPassword, user.getPasswordHash()))
+            return user;
+        else
+            return null;
+
     }
+
+    public AppUser getUser(String userName) {
+        return userRepository.findFirstByUserName(userName);
+    }
+
+    public AppUser createUser(String userName, String password) {
+        AppUser user = userRepository.findFirstByUserName(userName);
+        if (user != null) return null;
+        String encodedPass = encoder.encode(password);
+        user = new AppUser(userName, encodedPass);
+        user = userRepository.save(user);
+        return user;
+    }
+
 }

@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ConveyorService {
     private static final Logger logger = LoggerFactory.getLogger(ConveyorService.class);
-    private static final String ARDUINO = "192.168.100.12";
+    private static final String ARDUINO = "172.30.187.97";
     private RestTemplate restTemplate = new RestTemplate();
 
     public String changeSpeed(double speed){

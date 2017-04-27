@@ -5,18 +5,15 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.shared.ui.slider.SliderOrientation;
-import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
 
 @UIScope
-@SpringComponent
 public class ControlPanel extends VerticalLayout implements View {
     private ConveyorService conveyorService;
     private Label lbStat;
-
 
 
     public ControlPanel(ConveyorService conveyorService) {
@@ -27,6 +24,7 @@ public class ControlPanel extends VerticalLayout implements View {
         addActionButtons();
         addStatus();
     }
+
 
     private void addHeader() {
         VerticalLayout headerLayout = new VerticalLayout();

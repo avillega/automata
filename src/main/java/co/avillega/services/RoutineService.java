@@ -1,8 +1,10 @@
 package co.avillega.services;
 
+import co.avillega.entities.AppUser;
 import co.avillega.entities.Command;
 import co.avillega.entities.Routine;
 import co.avillega.repositories.RoutineRepository;
+import co.avillega.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,13 @@ import java.util.List;
 public class RoutineService {
 
     private final RoutineRepository routineRepository;
-
+    private final UserRepository userRepository;
     private final ConveyorService conveyorService;
 
     @Autowired
-    public RoutineService(RoutineRepository routineRepository, ConveyorService conveyorService) {
+    public RoutineService(RoutineRepository routineRepository, UserRepository userRepository, ConveyorService conveyorService) {
         this.routineRepository = routineRepository;
+        this.userRepository = userRepository;
         this.conveyorService = conveyorService;
     }
 
@@ -64,6 +67,11 @@ public class RoutineService {
 
     public void emergencyStop() {
         conveyorService.emergencyStop();
+    }
+
+    public List<Routine> getRoutinesByUserName(String userName) {
+        AppUser user = userRepository.findFirstByUserName(userName);
+        return routineRepository.findByOwnerId(userName);
     }
 
 

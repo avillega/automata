@@ -1,6 +1,7 @@
 package co.avillega.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -11,13 +12,17 @@ public class AppUser {
 
     @Id
     private String id;
+
+    @Indexed(unique = true)
     private String userName;
     private String passwordHash;
 
-    public AppUser(String id, String userName, String passwordHash) {
-        this.id = id;
+
+    public AppUser(String userName, String passwordHash) {
+
         this.userName = userName;
         this.passwordHash = passwordHash;
+
     }
 
     public AppUser() {
@@ -46,6 +51,7 @@ public class AppUser {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
 
     @Override
     public boolean equals(Object o) {

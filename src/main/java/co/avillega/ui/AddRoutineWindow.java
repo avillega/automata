@@ -1,42 +1,46 @@
 package co.avillega.ui;
 
 
+import co.avillega.entities.AppUser;
 import co.avillega.entities.Routine;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
 
 
 class AddRoutineWindow extends Window {
 
     AddRoutineWindow(RutinasPanel panel) {
-        super("Add Routine");
+        super("Agregar Rutina");
 
         VerticalLayout form = new VerticalLayout();
 
 
-        TextField nameTxt = new TextField("Name");
+        TextField nameTxt = new TextField("Nombre");
         nameTxt.setSizeFull();
         form.addComponent(nameTxt);
 
-        TextArea descArea = new TextArea("Description");
+        TextArea descArea = new TextArea("Descripción");
         descArea.setSizeFull();
         form.addComponent(descArea);
 
         HorizontalLayout btns = new HorizontalLayout();
 
-        Button addBtn = new Button("Add");
+        Button addBtn = new Button("Agregar");
         addBtn.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         addBtn.addClickListener(event -> {
             if (nameTxt.isEmpty()) {
-                Notification.show("Warning", "Name must not be empty", Notification.Type.WARNING_MESSAGE);
+                Notification.show("Atención", "El nombre no puede estar vacio", Notification.Type.WARNING_MESSAGE);
             } else {
-                panel.addRoutine(new Routine(descArea.getValue(), nameTxt.getValue()));
+                AppUser user = (AppUser) VaadinSession.getCurrent().getAttribute("user");
+
+                panel.addRoutine(new Routine(descArea.getValue(), nameTxt.getValue(), user));
                 this.close();
             }
         });
         btns.addComponent(addBtn);
 
-        Button cancelBtn = new Button("Cancel");
+        Button cancelBtn = new Button("Cancelar");
         cancelBtn.addClickListener(clickEvent -> this.close());
         btns.addComponent(cancelBtn);
         form.addComponent(btns);

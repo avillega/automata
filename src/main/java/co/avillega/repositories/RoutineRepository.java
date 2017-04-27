@@ -10,5 +10,5 @@ import java.util.List;
  * Created by Andres Villegas on 2017-03-28.
  */
 public interface RoutineRepository extends MongoRepository<Routine, String> {
-    List<Routine> findByOwnerId(String ownerId);
+    List<Routine> findByOwnerId(String id);
 }

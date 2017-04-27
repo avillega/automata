@@ -1,30 +1,32 @@
 package co.avillega.ui;
 
+import co.avillega.entities.AppUser;
 import co.avillega.entities.Routine;
 import co.avillega.services.RoutineService;
+import co.avillega.services.UserService;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 
 @UIScope
-@SpringComponent
 public class RutinasPanel extends VerticalLayout implements View {
+
+    private final UserService userService;
 
     private final RoutineService routineService;
     private String currentRoutine = "";
     private Accordion accordion = new Accordion();
 
-    @Autowired
-    public RutinasPanel(RoutineService routineService) {
+
+    public RutinasPanel(RoutineService routineService, UserService userService) {
 
         setDefaultComponentAlignment(Alignment.TOP_LEFT);
         Label lbRutinas = new Label("Rutinas");
@@ -32,6 +34,7 @@ public class RutinasPanel extends VerticalLayout implements View {
         this.addComponents(lbRutinas, accordion);
 
         this.routineService = routineService;
+        this.userService = userService;
     }
 
     @PostConstruct
@@ -43,9 +46,13 @@ public class RutinasPanel extends VerticalLayout implements View {
     private void setRoutines() {
         currentRoutine = "";
         accordion.removeAllComponents();
-        List<Routine> routines = routineService.getRoutines();
+
+        AppUser user = (AppUser) VaadinSession.getCurrent().getAttribute("user");
+        List<Routine> routines = routineService.getRoutinesByUserName(user.getUserName());
+
         accordion.addTab(new HorizontalLayout(), "Cerrar todas");
         routines.forEach(routine -> accordion.addTab(new RutinaLayout(routine, this), routine.getName()));
+
         accordion.addSelectedTabChangeListener(event -> {
             if (event.getTabSheet().getSelectedTab() instanceof RutinaLayout) {
                 currentRoutine = ((RutinaLayout) event.getTabSheet().getSelectedTab()).getRoutineId();
@@ -53,6 +60,7 @@ public class RutinasPanel extends VerticalLayout implements View {
                 currentRoutine = "";
             }
         });
+
     }
 
     private void setAddDeleteButtons() {
@@ -110,4 +118,6 @@ public class RutinasPanel extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         setRoutines();
     }
+
+
 }

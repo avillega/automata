@@ -1,8 +1,12 @@
 package co.avillega.ui;
 
 
+import co.avillega.services.ConveyorService;
+import co.avillega.services.RoutineService;
+import co.avillega.services.UserService;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Panel;
@@ -15,26 +19,33 @@ public class MainUI extends UI {
 
     static final String CONTROLVIEW = "";
     static final String RUTINASVIEW = "rutinas";
-    private final ControlPanel controlPanel;
-    private final RutinasPanel rutinasPanel;
+    private final UserService userService;
+    private final ConveyorService conveyorService;
+    private final RoutineService routineService;
+    private ControlPanel controlPanel;
+    private RutinasPanel rutinasPanel;
     private Navigator navigator;
 
     @Autowired
-    public MainUI(ControlPanel controlPanel, RutinasPanel rutinasPanel) {
-        this.controlPanel = controlPanel;
-        this.rutinasPanel = rutinasPanel;
+    public MainUI(UserService userService, ConveyorService conveyorService, RoutineService routineService) {
+        this.userService = userService;
+        this.conveyorService = conveyorService;
+        this.routineService = routineService;
     }
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        VaadinSession.getCurrent().setAttribute("user", userService.getUser("Test"));
+        controlPanel = new ControlPanel(conveyorService);
+        rutinasPanel = new RutinasPanel(routineService, userService);
         setupLayout();
+
 
     }
 
     private void setupLayout() {
-        AuxPanel auxPanel = new AuxPanel(this);
+        AuxPanel auxPanel = new AuxPanel(this, userService);
         Panel contentPanel = new Panel();
-
 
         GridLayout root = new GridLayout(2, 1);
 
