@@ -35,7 +35,7 @@ public class MainUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        VaadinSession.getCurrent().setAttribute("user", userService.getUser("Test"));
+        VaadinSession.getCurrent().setAttribute("user", userService.getDefaultUser());
         controlPanel = new ControlPanel(conveyorService);
         rutinasPanel = new RutinasPanel(routineService, userService);
         setupLayout();

@@ -12,7 +12,6 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 
@@ -35,13 +34,11 @@ public class RutinasPanel extends VerticalLayout implements View {
 
         this.routineService = routineService;
         this.userService = userService;
-    }
 
-    @PostConstruct
-    private void init() {
         setRoutines();
         setAddDeleteButtons();
     }
+
 
     private void setRoutines() {
         currentRoutine = "";
@@ -117,6 +114,7 @@ public class RutinasPanel extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
         setRoutines();
+
     }
 
 

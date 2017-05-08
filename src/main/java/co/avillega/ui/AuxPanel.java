@@ -69,7 +69,7 @@ public class AuxPanel extends VerticalLayout {
 
         buttonLayout.addComponentsAndExpand(myRoutines, irControl);
 
-        if (logged.getUserName().equals("Test")) {
+        if (logged.equals(userService.getDefaultUser())) {
             Button logIn = new Button("Log in");
             logIn.addStyleName(ValoTheme.BUTTON_PRIMARY);
             logIn.addClickListener(event -> logginWindow());
@@ -79,6 +79,13 @@ public class AuxPanel extends VerticalLayout {
             Button register = new Button("Registarse");
             register.setSizeFull();
             register.addClickListener(event -> registerWindow());
+            buttonLayout.addComponent(register);
+        } else {
+            Button cerrarSesion = new Button("Cerrar sesión");
+            cerrarSesion.addStyleName(ValoTheme.BUTTON_PRIMARY);
+            cerrarSesion.setSizeFull();
+            cerrarSesion.addClickListener(event -> setUser(userService.getDefaultUser()));
+            buttonLayout.addComponent(cerrarSesion);
         }
 
         this.addComponent(buttonLayout);
@@ -86,7 +93,8 @@ public class AuxPanel extends VerticalLayout {
     }
 
     private void registerWindow() {
-
+        Window window = new RegisterWindow(this);
+        UI.getCurrent().addWindow(window);
     }
 
     private void logginWindow() {
@@ -102,14 +110,25 @@ public class AuxPanel extends VerticalLayout {
             Notification.show("El usuario o contraseña son incorrectos", Notification.Type.WARNING_MESSAGE);
             return;
         }
-        VaadinSession.getCurrent().setAttribute("user", user);
-        refresh();
-        //TODO: if user is null call the window again
+        setUser(user);
 
     }
 
     public void registerUser(String userName, String password) {
-        userService.createUser(userName, password);
+        AppUser user = userService.createUser(userName, password);
+        if (user == null) {
+            Window window = new RegisterWindow(this);
+            UI.getCurrent().addWindow(window);
+            Notification.show("un usuario con ese nombre de usuario ya existe", Notification.Type.WARNING_MESSAGE);
+            return;
+        }
+        setUser(user);
+    }
+
+    public void setUser(AppUser user) {
+        VaadinSession.getCurrent().setAttribute("user", user);
+        refresh();
+        parent.getNavigator().getCurrentView().enter(null);
     }
 
 

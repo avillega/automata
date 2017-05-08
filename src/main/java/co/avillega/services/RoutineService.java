@@ -71,7 +71,7 @@ public class RoutineService {
 
     public List<Routine> getRoutinesByUserName(String userName) {
         AppUser user = userRepository.findFirstByUserName(userName);
-        return routineRepository.findByOwnerId(userName);
+        return routineRepository.findByOwnerId(user.getId());
     }
 
 

@@ -45,4 +45,8 @@ public class UserService {
         return user;
     }
 
+    public AppUser getDefaultUser() {
+        return userRepository.findFirstByUserName("icesi");
+    }
+
 }
