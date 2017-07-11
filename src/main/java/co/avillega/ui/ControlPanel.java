@@ -45,15 +45,15 @@ public class ControlPanel extends VerticalLayout implements View {
         VerticalLayout controlLayout = new VerticalLayout();
         controlLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 
-        Label label = new Label("0 m/s");
+        Label label = new Label("0 cm/s");
         label.addStyleName(ValoTheme.LABEL_H3);
 
-        Slider control = new Slider(0, 10, 1);
+        Slider control = new Slider(0, 40, 1);
         control.setCaption("Control");
         control.setWidth("50%");
         control.setOrientation(SliderOrientation.HORIZONTAL);
         control.addValueChangeListener(event -> {
-            label.setValue(control.getValue() + " m/s");
+            label.setValue(control.getValue() + " cm/s");
             conveyorService.changeSpeed(control.getValue());
         });
 

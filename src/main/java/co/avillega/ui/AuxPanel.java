@@ -2,7 +2,7 @@ package co.avillega.ui;
 
 import co.avillega.entities.AppUser;
 import co.avillega.services.UserService;
-import com.vaadin.server.FileResource;
+import com.vaadin.server.ExternalResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
@@ -10,11 +10,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 
-/**
- * Created by Andres Villegas on 2017-04-03.
- */
 @UIScope
 public class AuxPanel extends VerticalLayout {
 
@@ -42,7 +38,7 @@ public class AuxPanel extends VerticalLayout {
     private void setUserImg() {
         logged = (AppUser) VaadinSession.getCurrent().getAttribute("user");
 
-        Image profileImage = new Image("", new FileResource(new File("./src/main/resources/static/generic.png")));
+        Image profileImage = new Image("", new ExternalResource("http://media.fooducate.com/assets/users/generic-dude360-circle-white.png"));
         profileImage.setAlternateText("User profile");
         profileImage.setWidth("70%");
         profileImage.addStyleName(ValoTheme.LABEL_NO_MARGIN);

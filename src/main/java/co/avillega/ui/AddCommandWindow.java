@@ -81,7 +81,7 @@ class AddCommandWindow extends Window {
             if (actual == Instruction.SPEED) {
                 parameter.clear();
                 parameter.setVisible(true);
-                parameter.setPlaceholder("m/s");
+                parameter.setPlaceholder("cm/s");
 
 
             } else if (actual == Instruction.WAIT) {

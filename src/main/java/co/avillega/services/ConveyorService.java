@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 public class ConveyorService {
     private static final Logger logger = LoggerFactory.getLogger(ConveyorService.class);
 
-    @Value("${arduino}")
+    @Value("${arduino:172.30.251.232}")
     private String ARDUINO;
 
     private RestTemplate restTemplate = new RestTemplate();
@@ -23,6 +23,7 @@ public class ConveyorService {
     public String changeSpeed(double speed){
         try {
             int s = (int) (speed * 10);
+            s = s > 400 ? 400 : s;
             logger.info(s + "");
             restTemplate.getForEntity(String.format("http://%s/mailbox/speed:%d", ARDUINO, s), String.class);
             logger.info(String.format("Speed Set to %f", speed));
@@ -36,6 +37,7 @@ public class ConveyorService {
     public String stop() {
         try {
             restTemplate.getForEntity(String.format("http://%s/mailbox/stop", ARDUINO), String.class);
+            logger.info(String.format("http://%s/mailbox/stop", ARDUINO));
             logger.info("stopped");
             return "stopped";
         } catch (Exception e) {
